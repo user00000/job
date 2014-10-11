@@ -1,0 +1,14 @@
+#ConnectionParams
+#Thu Aug 21 17:02:33 MSK 2014
+restoreList=D\:\\Nice_Storage\\List_to_pkg_Restore
+restoreLog=D\:\\Nice_Storage\\List_to_pkg_Restore\\List_to_pkg_Restore_Log
+dataBase=nice_storage_center
+port=1433
+user=Nice_test
+Remote_tools=C:\\PSTools\\psexec.exe
+server_IP=192.168.2.118
+remote_user = data-integration.ru\\niceuser 
+remote_password = aAd7eiFf
+remote_disk = D:
+pathUtil=C\:\\Program Files\\Veritas\\NetBackup\\bin
+password=\!Q@W3e4r
