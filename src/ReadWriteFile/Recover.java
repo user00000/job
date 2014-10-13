@@ -134,6 +134,7 @@ public class Recover extends Select_from_tables {
 				    	  RemoteFileDemo rfd = new RemoteFileDemo();
 				    	  try {
 							rfd.copyToRemote();
+							//rfd.copyToLocal();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

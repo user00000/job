@@ -20,61 +20,83 @@ public class RemoteFileDemo {
 	private String domain="data-integration.ru";
     private String userName="niceuser";
     private String password="aAd7eiFf";
-    private String remoteFilePath="\\\\192.168.2.118\\C$\\test\\restore.bat";
-    private String remotrFileName ;   
-    private String localPath = "";
-    private String loacalFileName = "";
+    private String remoteFilePath="\\\\192.168.2.118\\D$\\test";
+    private String remotrFileName = "restore.bat";   
+    private String localPath = "D:\\Nice_Storage\\List_to_pkg_Restore";
+    private String loacalFileName = "restore.bat";
 	
     private FileObject destn;
     private FileObject fo;
   
-public void transferFiles(FileObject destn,FileObject fo) throws IOException {
 
     
-    
-     File f=new File("D:\\Nice_Storage\\List_to_pkg_Restore\\restore.bat"); //Takes the default path, else, you can specify the required path
-   
-    /*
-    if(f.exists())
-    {
-        f.delete();
-    }
-    f.createNewFile(); 
-    */
-    
-
-    destn=VFS.getManager().resolveFile(f.getAbsolutePath());
-    //domain, username, password
-    UserAuthenticator auth=new StaticUserAuthenticator(domain, userName, password);
-    FileSystemOptions opts=new FileSystemOptions();
-    DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
-
-
-    fo=VFS.getManager().resolveFile(remoteFilePath,opts);
-
-    System.out.println(fo.exists());
-
-    //fo.createFile();
-
-    fo.copyFrom(destn, Selectors.SELECT_SELF); // to server
-   // destn.copyFrom(fo,Selectors.SELECT_SELF); // from server
-   // destn.close();
-
-    //InputStream is=new FileInputStream(f);
-
-}
 
 
     
 public void copyToRemote() throws IOException {
     	
-	transferFiles(this.destn,this.fo);
+	
+	    File f = new File(localPath + "\\" + loacalFileName);
+	    /*
+	    if(f.exists())
+	    {
+	        f.delete();
+	    }
+	    f.createNewFile(); 
+	    */
+	    
+	    
+	    UserAuthenticator auth = new StaticUserAuthenticator(domain, userName, password);
+	    	
+	    
+	    destn=VFS.getManager().resolveFile(f.getAbsolutePath());
+	    FileSystemOptions opts=new FileSystemOptions();
+	    DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
+	    fo=VFS.getManager().resolveFile(remoteFilePath + "\\" + remotrFileName,opts);
+
+	    
+	    //System.out.println(fo.exists());
+
+
+	    //fo.copyFrom(destn, Selectors.SELECT_SELF); // to server
+	  
+	    //if(fo.exists()){
+	    //	fo.delete();
+	    //}
+	    
+	    destn.moveTo(fo);
     	
-    	fo.copyFrom(destn, Selectors.SELECT_SELF);
-    	
-    	  destn.close();
+    	destn.close();
     }
+
+
+public void copyToLocal() throws IOException {
+	
+	 File f = new File(localPath + "\\" + loacalFileName);
     
+    UserAuthenticator auth = new StaticUserAuthenticator(domain, userName, password);
+    	
+    
+    destn=VFS.getManager().resolveFile(f.getAbsolutePath());
+    FileSystemOptions opts=new FileSystemOptions();
+    DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
+    fo=VFS.getManager().resolveFile(remoteFilePath + "\\" + remotrFileName,opts);
+
+
+    //destn.copyFrom(fo,Selectors.SELECT_SELF);
+    fo.moveTo(destn);
+    
+   	
+   	destn.close();
+   }
+
+
+
+
+
+
+
+
     
 
 
