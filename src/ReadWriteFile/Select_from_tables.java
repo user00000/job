@@ -1,3 +1,9 @@
+/**
+ * Выборка данных из таблиц : tblScSamUnit и tblStorageCenter[01-99]
+ * 
+ * 
+ */
+
 package ReadWriteFile;
 
 import java.sql.Connection;

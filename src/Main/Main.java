@@ -1,5 +1,18 @@
 package Main;
 
+
+/**
+ *  При запуске программы вводится полный путь к файлу,
+ *  где хранятся даты для восстановления в формате YYYY-MM-DD HH:mm
+ *  
+ *  По умолчанию будет путь: D:\Nice_Storage\List_data_to_Recover\dates.txt
+ * 
+ *  Так же меняется конфигурация SQl сервера, разрешающая делать cmd команды из sql сервера.
+ * 
+ */
+
+
+
 import Connection.ReconfigureCmdShell;
 import ReadWriteFile.Read_from_DateList_start_Recover;
 
@@ -8,7 +21,6 @@ public class Main {
 	
 	public static void main(String agv[]){
 		
-		//System.out.println(Math.min(1,2));
        
         String pathFile_with_date_to_recover = "";
         
@@ -21,16 +33,12 @@ public class Main {
         
         
         ReconfigureCmdShell.reconfigure_cmd();
-        
-        
-        
-		
-        //System.out.println(pathFile_with_date_to_recover);
-		 
+         
 		
 		Read_from_DateList_start_Recover readWrite = new Read_from_DateList_start_Recover(pathFile_with_date_to_recover);
 	    readWrite.FileReadFunction();
 	
+	    
 	}
 	
 	

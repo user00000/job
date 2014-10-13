@@ -1,14 +1,46 @@
 #ConnectionParams
 #Thu Aug 21 17:02:33 MSK 2014
+
+#Папка, где формируется список путей для восстановления. Данная папка должна быть на всех серверах
 restoreList=D\:\\Nice_Storage\\List_to_pkg_Restore
+
+#Папка с логами утилиты восстановления
 restoreLog=D\:\\Nice_Storage\\List_to_pkg_Restore\\List_to_pkg_Restore_Log
+
+#База с таблицами,где хранятся пути к файлам
 dataBase=nice_storage_center
+
+#порт MS SQL
 port=1433
+
+#пользователь для подключения к базе
 user=Nice_test
-Remote_tools=C:\\PSTools\\psexec.exe
-server_IP=192.168.2.118
-remote_user = data-integration.ru\\niceuser 
-remote_password = aAd7eiFf
-remote_disk = D:
-pathUtil=C\:\\Program Files\\Veritas\\NetBackup\\bin
+
+#Пароль для подключения к базе под пользователем user
 password=\!Q@W3e4r
+
+
+#Путь к утилите, которая запускает команду на удаленном сервере. Утилита находится на локальном сервере
+# (откуда запускается данная программа)
+Remote_tools=C:\\PSTools\\psexec.exe
+
+#Удаленный сервер с базой
+server_IP=192.168.2.118
+
+#Домен
+remote_domain = data-integration.ru
+
+#Пользователь для подключения к удаленному серверу (один и тот же для вссех серверов)
+remote_user = data-integration.ru\\niceuser 
+
+# Пароль для remote_user
+remote_password = aAd7eiFf
+
+#Название диска на удаленном сервере, где будут храниться вспомогательные папки
+remote_disk = D
+
+
+#локальный путь на удаленном сервере к программе bprestore для восстановления записи
+pathUtil=C\:\\Program Files\\Veritas\\NetBackup\\bin
+
+
