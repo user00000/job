@@ -1,3 +1,9 @@
+/**
+ * 
+ * ѕроверка даты на соответствие формату YYYY-MM-DD hh:mm
+ * 
+ */
+
 package Validation;
 
 

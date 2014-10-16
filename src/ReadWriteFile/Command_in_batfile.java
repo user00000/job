@@ -2,12 +2,13 @@ package ReadWriteFile;
 
 public class Command_in_batfile {
 
+	
 	private  String path_to_Veritas_util;
 	private  String path_to_log;
 	private  String date_to_restore;
 	private  String path_to_restore_list;
 	private  String command;
-	
+	private  String server;
 	
 	
 	public  String comand_to_file() {
@@ -42,7 +43,7 @@ public class Command_in_batfile {
 	
     */
     
-    String parametr_log      = " -L " + path_to_log + "\\" + date_to_restore.replace("-", "").replace(" ", "_").replace(":", "_") + "_logs.txt";
+    String parametr_log      = " -L " + path_to_log + "\\" + date_to_restore.replace("-", "").replace(" ", "_").replace(":", "_") + "_" + server+ "_logs.txt";
     String parametr_file     = " -f " +  path_to_restore_list;
     
     comand_to_file = "\"" + path_to_Veritas_util + "\\" + command + "\"" +  parametr_log + parametr_file ;
@@ -81,6 +82,12 @@ public class Command_in_batfile {
 
 	public void setPath_to_Veritas_util(String path_to_Veritas_util) {
 		this.path_to_Veritas_util = path_to_Veritas_util;
+	}
+
+
+
+	public void setServer(String server) {
+		this.server = server;
 	}
 
 

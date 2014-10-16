@@ -1,3 +1,12 @@
+/**
+ * 
+ * ѕерибираютс€ все даты в верном формате в данном файле
+ * и отсылаютс€ на формировани€ списка дл€ восстановлени€.
+ * 
+ * ѕосле всего прочтени€ файл удал€етс€.
+ * 
+ */
+
 package ReadWriteFile;
 
 import java.io.BufferedReader;
@@ -65,7 +74,7 @@ public class Read_from_DateList_start_Recover  {
     		fileReader.close();
     		//file.delete();
     		
-    		//System.out.println(file.delete());
+    		
     		
     		
     	} catch(IOException e){

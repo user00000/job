@@ -78,6 +78,30 @@ public class Connect_to_Storage {
 	}
 	
 	
+public static Connection getConnect(String dataBase){
+		
+		setParameters();
+		
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	       //   connect = DriverManager.getConnection("jdbc:sqlserver://192.168.2.118:1433;databaseName=nice_storage_center;user=Nice_test;password=!Q@W3e4r");
+	       //   connect = DriverManager.getConnection("jdbc:sqlserver://192.168.2.118;instance=DISNIMLABSRV01;databaseName=nice_storage_center;user=Nice_test;password=!Qqwe123");
+		   	connect = DriverManager.getConnection("jdbc:sqlserver://"+server_IP+":"+port+";databaseName="+dataBase,user,password);
+		   //	connect = DriverManager.getConnection("jdbc:sqlserver://"+server_IP+":"+port+";databaseName="+dataBase + ";integratedSecurity=true");
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			
+			//System.out.println("Can not connect");
+			FileLog.log("Can not connect");
+			
+			JOptionPane.showMessageDialog(null, "Can not connect","Error", JOptionPane.PLAIN_MESSAGE);
+			
+		}
+		
+		return connect;
+		
+	}
+	
 	public static void closeConnect(Connection connect){
 		if(connect != null){
 			

@@ -1,3 +1,8 @@
+/**
+ * Процесс восстановления.
+ * 
+ */
+
 package ReadWriteFile;
 
 import java.io.File;
@@ -10,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Command.Cmd_Command;
+import Command.GettingCurrentDate;
 import Command.RemoteFileDemo;
 import Command.SQL_Command;
 import Command.WriteInFile;
@@ -43,6 +49,7 @@ public class Recover extends Select_from_tables {
 			
 			
 			
+			
 		    //------------LOAD PARAMETERS---------
 			final String nameProportiesFile = "ConnectionParams";
 			Map mapL = new HashMap();
@@ -58,8 +65,9 @@ public class Recover extends Select_from_tables {
 			String folder_field                = "nvcUnitPath";
 			String table0                      = "tblStorageCenter"; 
 			
-			String path_to_Veritas_util    = (String) mapL.get(ConnectParameters.Parameters.pathUtil.getValue());
-			String path_to_remote_tools    = (String) mapL.get(ConnectParameters.Parameters.remote_tools.getValue());
+			String path_to_Veritas_util    = (String)mapL.get(ConnectParameters.Parameters.pathUtil.getValue());
+			String path_to_remote_tools    = (String)mapL.get(ConnectParameters.Parameters.remote_tools.getValue());
+			String remote_domain           = (String)mapL.get(ConnectParameters.Parameters.remote_domain.getValue());
 			String remote_user             = (String)mapL.get(ConnectParameters.Parameters.remote_user.getValue());
 			String remote_password         = (String)mapL.get(ConnectParameters.Parameters.remote_password.getValue());
 			String remote_disk             = (String)mapL.get(ConnectParameters.Parameters.remote_disk.getValue());
@@ -83,6 +91,7 @@ public class Recover extends Select_from_tables {
 					  String remote_store_folder_path = "";
 					  String remote_server="";
 					  String store_folder ="";
+					  
 				      while(rs_server_path.next()){
 						
 				    	  remote_store_folder_path = rs_server_path.getString(folder_field);
@@ -104,9 +113,9 @@ public class Recover extends Select_from_tables {
 				    	  while(rs.next()){
 				    	  
 				    		  
-				    		  /*Создание списка для восстановления*/ 
+				    		  /*Создание списка для восстановления. Список из локальных путей к файлам.*/ 
 				    		  
-								SQL_Command.cmd_shell_SQL(connect_to_nice, "echo " + remote_disk + "\\" + store_folder + "\\" + rs.getString(select_field)+">>"+path_to_restore_list);  
+								SQL_Command.cmd_shell_SQL(connect_to_nice, "echo " + remote_disk + ":\\" + store_folder + "\\" + rs.getString(select_field)+" > "+path_to_restore_list);  
 				    		  
 				    	  }
 				    	  
@@ -120,6 +129,7 @@ public class Recover extends Select_from_tables {
 				    	  batCommand.setDate_to_restore(date_to_restore);
 				    	  batCommand.setPath_to_log(path_to_log);
 				    	  batCommand.setPath_to_restore_list(path_to_restore_list);
+				    	  batCommand.setServer(remote_server.substring(2));
 				    	  batCommand.setCommand("bprestore.exe");
 				    	  
 				    	  String command_to_file = batCommand.comand_to_file();
@@ -131,23 +141,44 @@ public class Recover extends Select_from_tables {
 				    	  WriteInFile input = new WriteInFile(path_to_restore_list_folder + "\\" + "restore.bat");
 				    	  input.writeTextFile(command_to_file);
 				    	  
+				    	  
+				    	  
+				    	  // файл с командой запуска
 				    	  RemoteFileDemo rfd = new RemoteFileDemo();
+                          rfd.setDomain(remote_domain);
+                          rfd.setUserName(remote_user);
+                          rfd.setPassword(remote_password);
+                          rfd.setRemoteFilePath(remote_server+"\\"+path_to_restore_list_folder.replace(":", "$"));
+                          rfd.setRemotrFileName("restore.bat");
+                          rfd.setLocalPath(path_to_restore_list_folder);
+                          rfd.setLoacalFileName("restore.bat");
+                          
+                          
+                          //файл со списком для восстановления
+                          RemoteFileDemo rfd_list = new RemoteFileDemo();
+                          rfd_list.setDomain(remote_domain);
+                          rfd_list.setUserName(remote_user);
+                          rfd_list.setPassword(remote_password);
+                          rfd_list.setRemoteFilePath(remote_server+"\\"+path_to_restore_list_folder.replace(":", "$"));
+                          rfd_list.setRemotrFileName("restore_list.txt");
+                          rfd_list.setLocalPath(path_to_restore_list_folder);
+                          rfd_list.setLoacalFileName("restore_list.txt");
+                          
+                          
+                          
+                          
+                          
+                          
+                          
 				    	  try {
 							rfd.copyToRemote();
-							//rfd.copyToLocal();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-				    	  
-				    	  /*-----------------------*/
-				    	  
-				    	//!!!!COPY TO REMOTE MACHINE
-				    	  
-				    	  
-				    	   
-							String remote_path_login =  remote_server + " -u " + remote_user + " -p " +remote_password+" ";
-						   
+							rfd_list.copyToRemote();
+			
+							
+							
+							
+							String remote_path_login =  remote_server + " -u " + remote_domain+"\\"+remote_user + " -p " +remote_password+" ";
+							   
 						    String command_to_start_restore =   path_to_remote_tools + " " + remote_path_login 
 						    		                            + "\"" + path_to_restore_list_folder + "\\" + "restore.bat" + "\"";
 							
@@ -156,6 +187,31 @@ public class Recover extends Select_from_tables {
 
 							//cmd_shell_SQL(connect_to_nice, path_to_util + "\\bprestore.exe -L " + path_to_log + "\\" + date_to_restore.replace("-", "").replace(" ", "_").replace(":", "_") + "_logs.txt" + " -f " + path_to_restore_list);
 
+							
+							//----UPDATE TABLE-------------------
+							Connection connect_to_veritas = new Connect_to_Storage().getConnect("veritas_parameters");		
+						    
+						    GettingCurrentDate current_date = new GettingCurrentDate(1);
+							Update_tables upt = new  Update_tables();
+							upt.update_load_parameters(connect_to_veritas, date_to_restore.substring(0, 10), current_date.current_date());
+						
+							Connect_to_Storage.closeConnect(connect_to_veritas);
+							//----update table-------------------------
+						
+						} catch (IOException e) {
+							
+							e.printStackTrace();
+							FileLog.log("Не удалось переместить файлы");
+							
+						}
+				    	  
+				    	  /*-----------------------*/
+				    	  
+				    	//!!!!COPY TO REMOTE MACHINE
+				    	  
+				    	  
+				    	   
+							
 			    		  
 				    	  
 				    	  
@@ -170,7 +226,7 @@ public class Recover extends Select_from_tables {
 				      }
 				      
 				      if (loop == 0) {
-				    	  FileLog.log("Пустой результат в таблице сетевых путей");	  
+				    	  FileLog.log("Пустой результат в таблице локальных путей");	  
 				      }
 						
 					
@@ -201,39 +257,7 @@ public class Recover extends Select_from_tables {
 			
 	}
 	
-	/*
-	
-private void cmd_shell_SQL(Connection connect,String command)   {
-		
-		if(connect != null){
-			
-			PreparedStatement pStatSQL;
-			
-			
-			
-				
-					try {
-						pStatSQL = connect.prepareStatement("EXEC master..xp_cmdshell ?");
-						pStatSQL.setString(1, command);
-						pStatSQL.executeQuery();
-					} catch (SQLException e) {
-						
-						//System.out.println("Команда SQL не отработала. Возможно нет прав на запуск xp_cmdshell");	
-						FileLog.log("Команда SQL не отработала. Возможно нет прав на запуск xp_cmdshell");
-					}
-				
-			
-		}else
-		{
-		   //System.out.println("Не удалось выполнить процедуру cmd_shell_SQL. Connection is null");
-			FileLog.log("Не удалось выполнить процедуру cmd_shell_SQL. Connection is null");
-		}
-		
-	}
 
-	*/
-	
-	
 	
 	
 	

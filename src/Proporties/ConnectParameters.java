@@ -14,6 +14,7 @@ public class ConnectParameters {
 		,restoreLog("restoreLog")
 		,pathUtil("pathUtil")
 		,remote_tools("Remote_tools")
+		,remote_domain("remote_domain")
 		,remote_user("remote_user")
 		,remote_password("remote_password")
 		,remote_disk("remote_disk");
