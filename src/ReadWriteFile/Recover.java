@@ -115,7 +115,7 @@ public class Recover extends Select_from_tables {
 				    		  
 				    		  /*Создание списка для восстановления. Список из локальных путей к файлам.*/ 
 				    		  
-								SQL_Command.cmd_shell_SQL(connect_to_nice, "echo " + remote_disk + ":\\" + store_folder + "\\" + rs.getString(select_field)+" > "+path_to_restore_list);  
+								SQL_Command.cmd_shell_SQL(connect_to_nice, "echo " + remote_disk + ":\\" + store_folder + "\\" + rs.getString(select_field)+" >> "+path_to_restore_list);  
 				    		  
 				    	  }
 				    	  
@@ -177,7 +177,7 @@ public class Recover extends Select_from_tables {
 							
 							
 							
-							String remote_path_login =  remote_server + " -u " + remote_domain+"\\"+remote_user + " -p " +remote_password+" ";
+							String remote_path_login =  remote_server + " -u " +remote_user + " -p " +remote_password+" ";
 							   
 						    String command_to_start_restore =   path_to_remote_tools + " " + remote_path_login 
 						    		                            + "\"" + path_to_restore_list_folder + "\\" + "restore.bat" + "\"";

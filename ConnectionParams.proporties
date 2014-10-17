@@ -17,24 +17,24 @@ port=1433
 user=Nice_test
 
 #Пароль для подключения к базе под пользователем user
-password=\!Q@W3e4r
+password=\!Qwerty
 
 
 #Путь к утилите, которая запускает команду на удаленном сервере. Утилита находится на локальном сервере
 # (откуда запускается данная программа)
-Remote_tools=C:\\PSTools\\psexec.exe
+Remote_tools=D:\\Nice_Storage\\PSTools\\psexec.exe
 
 #Удаленный сервер с базой
-server_IP=192.168.2.118
+server_IP=10.30.30.40
 
 #Домен
-remote_domain = data-integration.ru
+remote_domain = rs
 
 #Пользователь для подключения к удаленному серверу (один и тот же для вссех серверов)
-remote_user = data-integration.ru\\niceuser 
+remote_user = rs\\nise_bd
 
 # Пароль для remote_user
-remote_password = aAd7eiFf
+remote_password = n$Dyp3W
 
 #Название диска на удаленном сервере, где будут храниться вспомогательные папки
 remote_disk = D
