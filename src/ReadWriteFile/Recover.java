@@ -115,7 +115,7 @@ public class Recover extends Select_from_tables {
 				    		  
 				    		  /*Создание списка для восстановления. Список из локальных путей к файлам.*/ 
 				    		  
-								SQL_Command.cmd_shell_SQL(connect_to_nice, "echo " + remote_disk + ":\\" + store_folder + "\\" + rs.getString(select_field)+" >> "+path_to_restore_list);  
+								SQL_Command.cmd_shell_SQL(connect_to_nice, "echo " + remote_disk + ":\\" + store_folder + "\\" + rs.getString(select_field)+">> "+path_to_restore_list);  
 				    		  
 				    	  }
 				    	  
@@ -134,7 +134,7 @@ public class Recover extends Select_from_tables {
 				    	  
 				    	  String command_to_file = batCommand.comand_to_file();
 				    	  
-				    	  System.out.println(batCommand.comand_to_file());
+				    	  //System.out.println(batCommand.comand_to_file());
 				    	 
 				    	 
 				    	  
