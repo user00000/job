@@ -61,7 +61,8 @@ public class Read_from_DateList_start_Recover  {
     			
     				
     				//System.out.println(line);
-
+                    line = Validate_Date_Format.convertFormat_102(line);
+				   
     				recover.start_recover(line, connect_to_nice);
     			
     			
