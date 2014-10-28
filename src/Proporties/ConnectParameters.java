@@ -17,7 +17,8 @@ public class ConnectParameters {
 		,remote_domain("remote_domain")
 		,remote_user("remote_user")
 		,remote_password("remote_password")
-		,remote_disk("remote_disk");
+		,remote_disk("remote_disk")
+		,hour_diff("hourdiff");
 	
 		
 	

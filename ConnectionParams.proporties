@@ -43,4 +43,7 @@ remote_disk = D
 #локальный путь на удаленном сервере к программе bprestore для восстановления записи
 pathUtil=C\:\\Program Files\\Veritas\\NetBackup\\bin
 
+#Количество часов, на которое надо поменять время, записываемое Nice
+hourdiff=-3
+
 

@@ -4,6 +4,7 @@ package Command;
 
 	import java.util.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -37,6 +38,20 @@ import java.util.Calendar;
 	       return df.format(calobj.getTime());
 	    }
 	      
+	      
+	      public static String dateAdd (String date, int hourdiff) throws ParseException{
+	    	  
+		    	
+		  	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		  	    Calendar c = Calendar.getInstance();
+		  	    c.setTime(sdf.parse(date));
+		  	    c.add(Calendar.HOUR, hourdiff);  // number of days to add
+		  	    date = sdf.format(c.getTime());  // dt is now the new date
+		  	    return date;
+		    	  
+		  	    
+		      }
+		      
 	      
 	}
 	

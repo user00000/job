@@ -18,7 +18,7 @@ public class Validate_Date_Format {
 		
 		    String year_mask  = "[1-9][0-9][0-9][0-9]";
 		    
-		    String time_mask = "(0|[1-9]|[1][0-9]|[2][0-3]):[0-5][0-9]:[0-5][0-9]";
+		    String time_mask = "(0|[1-9]|[1][0-9]|[2][0-3]):[0-5][0-9](:[0-5][0-9]){0,1}";
 		    
 		    String day_month_mask = "";
 		 
